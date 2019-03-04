@@ -1,4 +1,4 @@
-#### Tor Installer
+### Tor Installer
 
 This library provides an installer for Tor binaries. The current version is 0.4.0.
 
@@ -11,7 +11,7 @@ The following platforms are supported:
 
 Android is not currently supported.
 
-##### Using the library
+#### Using the library
 This library is actor based. You will first need to create an actor that
 will read messages coming back from the installer.
 
@@ -44,7 +44,19 @@ fun installChannel() = GlobalScope.actor<Any> {
      }.start()
  </pre>
  
- ###### Building the tor binaries
+ #### Building the Installer
+
+First make sure that you put in some dummy values into your gradle.properties file in the root
+of the project. This is so the publishing repository metainfo won't fail the build with unrecognized properties. 
+
+    username=dummy
+    password=dummy
+    
+Now to build
+
+    ./gradlew build
+ 
+ #### Building the Tor binaries
  The binaries are built using RBM: 
  https://github.com/sisbell/i2peer-tor-build
  
