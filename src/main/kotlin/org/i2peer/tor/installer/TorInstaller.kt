@@ -21,6 +21,12 @@ suspend fun installTor(installDir: File, eventChannel: SendChannel<Any>) {
     programUnarchiver().send(InstallData(installDir = installDir, event = eventChannel))
 }
 
+val torExecutableFileName: String = when (osType()) {
+    OsType.ANDROID, OsType.LINUX_32, OsType.LINUX_64, OsType.MAC -> "tor"
+    OsType.WINDOWS_32, OsType.WINDOWS_64 -> "tor.exe"
+    else -> throw RuntimeException("Unsupported OS")
+}
+
 private data class InstallData(val installDir: File, val event: SendChannel<Any>)
 
 @ObsoleteCoroutinesApi
@@ -85,12 +91,6 @@ private fun torArchiveName(osType: OsType? = osType()): String {
         OsType.WINDOWS_64 -> "tor-win64.zip"
         else -> throw RuntimeException("OS Unsupported")
     }
-}
-
-private val torExecutableFileName: String = when (osType()) {
-    OsType.ANDROID, OsType.LINUX_32, OsType.LINUX_64, OsType.MAC -> "tor"
-    OsType.WINDOWS_32, OsType.WINDOWS_64 -> "tor.exe"
-    else -> throw RuntimeException("Unsupported OS")
 }
 
 /**
