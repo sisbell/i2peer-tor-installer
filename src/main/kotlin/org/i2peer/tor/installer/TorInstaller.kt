@@ -14,7 +14,7 @@ data class InstallMessage(val text: String)
 
 data class InstallError(val message: String, val e: Throwable? = null)
 
-class InstallComplete()
+class InstallComplete(installDir: File)
 
 @ObsoleteCoroutinesApi
 suspend fun installTor(installDir: File, eventChannel: SendChannel<Any>) {
@@ -54,7 +54,7 @@ private suspend fun setTorPermissions(data: InstallData) {
         {
             data.event.send(InstallError("Failed to set permissions on tor", it))
         }, {
-            data.event.send(InstallComplete())
+            data.event.send(InstallComplete(data.installDir))
         })
 }
 
